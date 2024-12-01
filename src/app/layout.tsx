@@ -2,6 +2,7 @@ import "~/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
+import { MotionConfig } from "motion/react";
 
 export const metadata: Metadata = {
   title: "State Guessing Game",
@@ -14,7 +15,15 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${GeistSans.variable}`}>
-      <body>{children}</body>
+      <body>
+        <MotionConfig
+          transition={{
+            layout: { duration: 0.9, bounce: 0, type: "spring" },
+          }}
+        >
+          {children}
+        </MotionConfig>
+      </body>
     </html>
   );
 }

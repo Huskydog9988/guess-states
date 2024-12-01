@@ -57,7 +57,7 @@ const StateInput: React.FC<StateInputProps> = ({ onSubmit, feedbackClass }) => {
             Submit
           </button>
           <motion.p
-            className={`content-center text-xl font-semibold ${feedbackClass}`}
+            className={`ml-2 content-center text-xl font-semibold ${feedbackClass}`}
           >
             {feedbackClass.includes("green")
               ? "Valid state!"

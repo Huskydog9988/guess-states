@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { motion } from "motion/react";
+import NumberFlow, { useCanAnimate } from "@number-flow/react";
 
 import StateInput from "~/components/state-input";
 import USAMap from "~/components/USAmap";
@@ -27,7 +27,14 @@ export default function HomePage() {
   return (
     <div>
       <StateInput onSubmit={onSubmit} feedbackClass={feedbackClass} />
-      <motion.p layout className="ml-2">{`${guesses.size}/50`}</motion.p>
+      <NumberFlow
+        value={guesses.size}
+        format={{
+          minimumIntegerDigits: 2,
+        }}
+        suffix="/50"
+        className="ml-2"
+      />
       <USAMap guesses={[...guesses]} />
     </div>
   );
