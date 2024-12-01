@@ -1,74 +1,22 @@
 "use client";
-import Link from "next/link";
-import { FC, FormEvent, useEffect, useState } from "react";
+import { useState } from "react";
+import { motion } from "motion/react";
+
 import StateInput from "~/components/state-input";
 import USAMap from "~/components/USAmap";
-
-const USStates = [
-  "alabama",
-  "alaska",
-  "arizona",
-  "arkansas",
-  "california",
-  "colorado",
-  "connecticut",
-  "delaware",
-  "florida",
-  "georgia",
-  "hawaii",
-  "idaho",
-  "illinois",
-  "indiana",
-  "iowa",
-  "kansas",
-  "kentucky",
-  "louisiana",
-  "maine",
-  "maryland",
-  "massachusetts",
-  "michigan",
-  "minnesota",
-  "mississippi",
-  "missouri",
-  "montana",
-  "nebraska",
-  "nevada",
-  "new hampshire",
-  "new jersey",
-  "new mexico",
-  "new york",
-  "north carolina",
-  "north dakota",
-  "ohio",
-  "oklahoma",
-  "oregon",
-  "pennsylvania",
-  "rhode island",
-  "south carolina",
-  "south dakota",
-  "tennessee",
-  "texas",
-  "utah",
-  "vermont",
-  "virginia",
-  "washington",
-  "west virginia",
-  "wisconsin",
-  "wyoming",
-];
+import { type State, USStates } from "~/utils/states";
 
 export default function HomePage() {
   const [feedbackClass, setFeedbackClass] = useState<string>("");
-  const [guesses, setGuesses] = useState<string[]>([]);
+  const [guesses, setGuesses] = useState<Set<State>>(new Set());
 
   const onSubmit = (state: string) => {
     state = state.toLocaleLowerCase().trim();
 
-    const isValid = USStates.includes(state);
-    if (isValid) {
+    if (state in USStates) {
       setFeedbackClass("text-green-500 animate-pulse");
 
-      setGuesses([...guesses, state]);
+      setGuesses(new Set([...guesses, state as State]));
     } else {
       setFeedbackClass("text-red-500 animate-pulse");
     }
@@ -79,8 +27,8 @@ export default function HomePage() {
   return (
     <div>
       <StateInput onSubmit={onSubmit} feedbackClass={feedbackClass} />
-      {`${guesses.length}/50`}
-      <USAMap guesses={guesses} />
+      <motion.p layout className="ml-2">{`${guesses.size}/50`}</motion.p>
+      <USAMap guesses={[...guesses]} />
     </div>
   );
 }

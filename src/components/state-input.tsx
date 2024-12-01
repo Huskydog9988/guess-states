@@ -1,4 +1,10 @@
-import React, { useState, ChangeEvent, KeyboardEvent, FormEvent } from "react";
+import React, {
+  useState,
+  type ChangeEvent,
+  type KeyboardEvent,
+  type FormEvent,
+} from "react";
+import { motion } from "motion/react";
 
 interface StateInputProps {
   onSubmit: (stateName: string) => void;
@@ -30,7 +36,7 @@ const StateInput: React.FC<StateInputProps> = ({ onSubmit, feedbackClass }) => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="m-2">
         <label htmlFor="state-input" className="mb-2 block text-lg">
           Enter a state name:
         </label>
@@ -41,22 +47,26 @@ const StateInput: React.FC<StateInputProps> = ({ onSubmit, feedbackClass }) => {
           onChange={handleChange}
           onKeyDown={handleKeyPress}
           placeholder="Guess"
-          className="mb-4 w-full rounded border border-gray-300 p-2"
+          className="mb-4 max-w-64 rounded border border-gray-300 p-2"
         />
-        <button
-          type="submit"
-          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
-        >
-          Submit
-        </button>
+        <div className="grid grid-cols-2">
+          <button
+            type="submit"
+            className="col-end-1 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+          >
+            Submit
+          </button>
+          <motion.p
+            className={`content-center text-xl font-semibold ${feedbackClass}`}
+          >
+            {feedbackClass.includes("green")
+              ? "Valid state!"
+              : feedbackClass.includes("red")
+                ? "Invalid state!"
+                : ""}
+          </motion.p>
+        </div>
       </form>
-      <p className={`mt-4 text-xl font-semibold ${feedbackClass}`}>
-        {feedbackClass.includes("green")
-          ? "Valid state!"
-          : feedbackClass.includes("red")
-            ? "Invalid state!"
-            : ""}
-      </p>
     </div>
   );
 };
